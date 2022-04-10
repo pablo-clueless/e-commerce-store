@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { commerce } from '../../lib/commerce'
 import FormInput from './FormInput'
 
-const AddressForm = ({ checkoutToken, test }) => {
+const AddressForm = ({ checkoutToken, next }) => {
   const [shippingCountries, setShippingCountries] = useState([])
   const [shippingCountry, setShippingCountry] = useState('')
   const [shippingSubdivisions, setShippingSubdivisions] = useState([])
@@ -15,6 +15,10 @@ const AddressForm = ({ checkoutToken, test }) => {
   const [shippingOption, setShippingOption] = useState('')
 
   const methods = useForm()
+
+  const countries = Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name }))
+  const subdivisions = Object.entries(shippingSubdivisions).map(([code, name]) => ({ id: code, label: name }))
+  const options = shippingOptions.map((option) => ({ id: option.id, label: `${option.description} - (${option.price.formatted_with_symbol})` }))
 
   const fetchShippingCountries = async (checkoutTokenId) => {
     const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId)
@@ -53,20 +57,20 @@ const AddressForm = ({ checkoutToken, test }) => {
     <>
       <Typography variant="h6" gutterBottom>Shipping address</Typography>
       <FormProvider {...methods}>
-        <form >
+        <form onSubmit={methods.handleSubmit((data) => next({...data, shippingCountry, shippingSubdivision, shippingOption}))} >
           <Grid container spacing={3}>
-            <FormInput required name="firstName" label="First name" />
-            <FormInput required name="lastName" label="Last name" />
-            <FormInput required name="address1" label="Address line 1" />
-            <FormInput required name="email" label="Email" />
-            <FormInput required name="city" label="City" />
-            <FormInput required name="zip" label="Zip / Postal code" />
+            <FormInput name="firstName" label="First name" />
+            <FormInput name="lastName" label="Last name" />
+            <FormInput name="address1" label="Address line 1" />
+            <FormInput name="email" label="Email" />
+            <FormInput name="city" label="City" />
+            <FormInput name="zip" label="Zip/Postal code" />
 
             {/* select options */}
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Country</InputLabel>
               <Select value={shippingCountry} fullWidth onChange={(e) => setShippingCountry(e.target.value)} variant='outlined'>
-                {Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name })).map((item) => (
+                {countries.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
                     {item.label}
                   </MenuItem>
@@ -76,7 +80,7 @@ const AddressForm = ({ checkoutToken, test }) => {
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Subdivision</InputLabel>
               <Select value={shippingSubdivision} fullWidth onChange={(e) => setShippingSubdivision(e.target.value)} variant='outlined'>
-                {Object.entries(shippingSubdivisions).map(([code, name]) => ({ id: code, label: name })).map((item) => (
+                {subdivisions.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
                     {item.label}
                   </MenuItem>
@@ -86,7 +90,7 @@ const AddressForm = ({ checkoutToken, test }) => {
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Options</InputLabel>
               <Select value={shippingOption} fullWidth onChange={(e) => setShippingOption(e.target.value)} variant='outlined'>
-                {shippingOptions.map((option) => ({ id: option.id, label: `${option.description} - (${option.price.formatted_with_symbol})` })).map((item) => (
+                {options.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
                     {item.label}
                   </MenuItem>
@@ -99,7 +103,7 @@ const AddressForm = ({ checkoutToken, test }) => {
             <Link to={'/cart'}>
                   <Button variant='outlined'>Back to Cart</Button>
             </Link>
-            <Button type="submit" variant="contained" color="primary">Next</Button>
+            <Button type="submit" variant='contained' color="primary">Next</Button>
           </div>
         </form>
       </FormProvider>
