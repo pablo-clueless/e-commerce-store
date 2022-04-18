@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import { InputLabel, Select, MenuItem, Button, Grid, Typography } from '@material-ui/core'
+import { InputLabel, Select, MenuItem, Button, Grid, Typography, TextField } from '@material-ui/core'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 import { commerce } from '../../lib/commerce'
-import FormInput from './FormInput'
+// import FormInput from './FormInput'
 
 const AddressForm = ({ checkoutToken, next }) => {
+  //values provided by commercejs
   const [shippingCountries, setShippingCountries] = useState([])
   const [shippingCountry, setShippingCountry] = useState('')
   const [shippingSubdivisions, setShippingSubdivisions] = useState([])
   const [shippingSubdivision, setShippingSubdivision] = useState('')
   const [shippingOptions, setShippingOptions] = useState([])
   const [shippingOption, setShippingOption] = useState('')
+
+  //user info
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [address1, setAddress1]= useState('')
+  const [city, setCity] = useState('')
+  const [zip, setZip] = useState('')
 
   const methods = useForm()
 
@@ -58,16 +67,28 @@ const AddressForm = ({ checkoutToken, next }) => {
       <Typography variant="h6" gutterBottom>Shipping address</Typography>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit((data) => {
-          next({...data, shippingCountry, shippingSubdivision, shippingOption})
+          next({...data, firstName, lastName, email, address1, city, zip, shippingCountry, shippingSubdivision, shippingOption})
           console.log(data)
         })} >
           <Grid container spacing={3}>
-            <FormInput name="firstName" label="First name" />
-            <FormInput name="lastName" label="Last name" />
-            <FormInput name="email" label="Email" />
-            <FormInput name="address1" label="Address line 1" />
-            <FormInput name="city" label="City" />
-            <FormInput name="zip" label="Zip/Postal code" />
+            <Grid item xs={12} sm={6} >
+              <TextField fullWidth label='First name' value={firstName} onChange={(e) => setFirstName(e.target.value)} required variant='outlined' />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth label='Last name' value={lastName} onChange={(e) => setLastName(e.target.value)} required variant='outlined' />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth label='Emmail' value={email} onChange={(e) => setEmail(e.target.value)} required variant='outlined' />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth label='Address Line 1' value={address1} onChange={(e) => setAddress1(e.target.value)} required variant='outlined' />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth label='City' value={city} onChange={(e) => setCity(e.target.value)} required variant='outlined' />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth label='Zip/Postal Code' value={zip} onChange={(e) => setZip(e.target.value)} required variant='outlined' />
+            </Grid>
 
             {/* select options */}
             <Grid item xs={12} sm={6}>

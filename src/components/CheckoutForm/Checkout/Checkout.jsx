@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Paper, Stepper, Step, StepLabel, Typography, CircularProgress, Divider, Button } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 
 import useStyles from './styles'
 import AddressForm from '../AddressForm'
 import PaymentForm from '../PaymentForm'
 import { commerce } from '../../../lib/commerce'
+
 
 const steps = ['Shipping Address', 'Payment Details']
 
@@ -35,7 +37,25 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
       nextStep()
     }
 
-    const Confirmation = () => { return <div>Confirmation</div>}
+    const Confirmation = () => { return ( 
+    <>
+    <div>
+      <Typography variant='h5'>
+        Thank you for your patronage, 
+      </Typography>
+      <Divider className={classes.divider} />
+      <Typography variant='subtitle2'>
+        Order ref: ref
+      </Typography>
+    </div>
+    <br />
+    <Button variant='outlined' type='button'>
+      <Link to={'/'}>
+        Back to home
+      </Link>
+    </Button>
+    </>
+    )}
 
     const Form = () => activeStep === 0 ?
     <AddressForm checkoutToken={checkoutToken} next={next} /> :
