@@ -41,11 +41,11 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
     <>
     <div>
       <Typography variant='h5'>
-        Thank you for your patronage, 
+        Thank you for your patronage, {shippingData.firstName}
       </Typography>
       <Divider className={classes.divider} />
-      <Typography variant='subtitle2'>
-        Order ref: ref
+      <Typography variant='body1'>
+        Order ref: <b>{checkoutToken.cart_id}</b>
       </Typography>
     </div>
     <br />
