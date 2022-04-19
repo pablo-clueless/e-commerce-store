@@ -50,6 +50,7 @@ const PaymentForm = ({ checkoutToken, lastStep, shippingData, onCaptureCheckout,
     <Review checkoutToken={checkoutToken} />
     <Divider />
     <Typography variant='h6' gutterBottom style={{ margin: '20px 0'}} >Payment Method</Typography>
+    <Typography variant='subtitle2' gutterBottom style={{ margin: '20px 0'}}>Test card number: 4242 4242 4242 4242 <br />Expiry date: 04/24 <br />cvc: 242 <br />Zip code: 42424</Typography>
     <Elements stripe={stripePromise}>
         <ElementsConsumer>{({ elements, stripe }) => (
           <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
