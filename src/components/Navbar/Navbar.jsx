@@ -16,7 +16,7 @@ const Navbar = ({ totalItems }) => {
           <Toolbar>
             <Typography component={Link} to='/' variant='h6' className={classes.title} color='inherit' >
                 <img src={logo} alt='e-commerce' height='25px' className={classes.image} />
-                e-Commerce
+                PABLO'S STORE
             </Typography>
             <div className={classes.grow} />
             {location.pathname === '/' &&
