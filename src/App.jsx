@@ -11,7 +11,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const fetchProducts = async() => {
-    const { data } = await commerce.products.list()
+    const { data } = await commerce.products.list({limit: 200})
     setProducts(data)
   }
 
